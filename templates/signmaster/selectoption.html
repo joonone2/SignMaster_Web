@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f4f8;
+            font-family: 'Roboto', sans-serif;
+            padding-top: 50px; /* 화면 상단에서의 여백 추가 */
+        }
+
+        .header-icon {
+            width: 150px; /* 로고 크기 확대 */
+            margin-bottom: 50px; /* 로고와 메뉴 사이의 간격 확대 */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .header-icon:hover {
+            transform: rotate(360deg);
+        }
+
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px; /* 메뉴 아이템 간의 간격 확대 */
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .menu-item {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 280px; /* 메뉴 아이템의 최대 너비 확대 */
+            padding: 40px; /* 메뉴 아이템의 내부 패딩 확대 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .menu-item img {
+            width: 80px; /* 이미지 크기 확대 */
+            height: 80px; /* 이미지 크기 확대 */
+            margin-bottom: 20px;
+        }
+
+        .menu-item p {
+            margin: 0;
+            font-size: 22px; /* 텍스트 크기 확대 */
+            color: #ff6699;
+            font-weight: bold;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .menu-item {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% load static %}
+    <img src="{% static 'logo.png' %}" alt="Header Icon" class="header-icon">
+
+    <div class="menu-container">
+        <div class="menu-item" onclick="window.location.href='{% url 'learn' %}'">
+            <img src="{% static 'learn.png' %}" alt="LearnIcon">
+            <p>수어 배우기</p>
+        </div>
+
+        <div class="menu-item" onclick="window.location.href='{% url 'make_name' %}'">
+            <img src="{% static 'test.png' %}" alt="Test Icon">
+            <p>수어 테스트</p>
+        </div>
+    </div>
+</body>
+</html>

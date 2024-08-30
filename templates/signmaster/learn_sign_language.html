@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수어 배우기</title>
+    <style>
+        /* 기본 스타일 */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f7f7f7;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* 헤더 스타일 */
+        .header {
+            width: 100%;
+            text-align: center;
+            padding: 40px; /* 여백을 늘려서 강조 */
+            background-color: #ff6699;
+            color: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 34px; /* 텍스트 크기 확대 */
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
+
+        /* 버튼 컨테이너 */
+        .button-container {
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 0 20px; /* 버튼 컨테이너에 추가적인 여백 */
+        }
+
+        /* 버튼 스타일 */
+        .learn-button {
+            flex: 1 1 45%; /* 버튼 크기를 늘려 화면을 채움 */
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 15px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 25px; /* 버튼 내부 여백을 늘려 크기 확대 */
+            text-align: center;
+            font-size: 20px; /* 텍스트 크기 확대 */
+            color: #ff6699;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 버튼 호버 효과 */
+        .learn-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 60%);
+            transition: transform 0.3s ease;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 0;
+        }
+
+        .learn-button:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .learn-button:hover {
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+        }
+
+        .learn-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 작은 화면에 대한 반응형 디자인 */
+        @media (max-width: 768px) {
+            .learn-button {
+                flex: 1 1 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>수어 배우기</h1>
+    </div>
+    <div class="button-container">
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '안녕하세요' %}'"><span>안녕하세요</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '예쁘다' %}'"><span>예쁘다</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '부끄럽다' %}'"><span>부끄럽다</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '내 소개를 할게요' %}'"><span>내 소개를 할게요</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '미안합니다' %}'"><span>미안합니다</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '좋습니다' %}'"><span>좋습니다</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '이거 얼마예요?' %}'"><span>이거 얼마예요?</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '괜찮습니다' %}'"><span>괜찮습니다</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '감사합니다' %}'"><span>감사합니다</span></button>
+        <button class="learn-button" onclick="window.location.href='{% url 'learn_word' '부탁해요' %}'"><span>부탁해요</span></button>
+    </div>
+</body>
+</html>

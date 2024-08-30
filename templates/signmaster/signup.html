@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe5e5;
+            font-family: Arial, sans-serif;
+        }
+
+        .signup-container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .signup-container img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .signup-container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333333;
+        }
+
+        .signup-container .input-group {
+            margin-bottom: 15px;
+        }
+
+        .signup-container .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffcccc;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .signup-container .input-group input:focus {
+            outline: none;
+            border-color: #ff6699;
+        }
+
+        .signup-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 30px;
+            background-color: #ff6699;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .signup-container button:hover {
+            background-color: #ff3366;
+        }
+
+        .signup-container .login-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 12px;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .signup-container .login-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        {% load static %}
+        <img src="{% static 'logo.png' %}" alt="Logo">
+        <h1>회원가입</h1>
+
+            <div class="input-group">
+                <input type="text" name="username" placeholder="사용자 이름" id="input_name" required>
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="email" placeholder="이메일" id="input_email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="비밀번호" id="input_password" required>
+            </div>
+            <button type="submit" id="button_join">회원가입</button>
+        <a class="login-link" href="{% url 'login' %}">로그인 하러 가기</a>
+
+    </div>
+
+<script>
+    $(document).ready(function() {
+    $('#button_join').on('click', function(event) {
+        event.preventDefault(); // 버튼의 기본 동작을 방지합니다.
+
+        // 폼 데이터 가져오기
+        var email = $('#input_email').val();
+        var password = $('#input_password').val();
+        var name = $('#input_name').val();
+
+
+
+        $.ajax({
+            url: "/signup/",
+            method: "POST",
+            data:{
+                email: email,
+                password: password,
+                username: name,
+            },
+            success: function (data) {
+                console.log("회원가입 성공");
+                alert("회원가입 성공했습니다. 로그인 페이지로 이동합니다.");
+                if (data.redirect_url) {
+                    location.replace(data.redirect_url); // 데이터에 포함된 리다이렉트 URL 사용
+                } else {
+                    console.log("리다이렉션 URL이 응답에 포함되어 있지 않습니다.");
+                }
+            },
+            error: function (request, status, error) {
+                console.log("회원가입 실패");
+                var errorMessage = request.responseJSON ? request.responseJSON.message : "서버 오류가 발생했습니다.";
+                alert("회원가입에 실패했습니다: " + errorMessage);
+            },
+            complete: function () {
+                console.log("AJAX 요청 완료");
+            }
+        });
+    });
+});
+
+
+</script>
+</body>
+</html>

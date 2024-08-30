@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Camera Stream</title>
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+            transition: background-color 0.5s ease;
+        }
+
+        /* 비디오 컨테이너 */
+        #video-container {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        #video-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        /* 정답 이미지 */
+        #correct-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            display: none;
+            z-index: 1000;
+            width: 20%;
+            max-width: 120px;
+            height: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
+        }
+
+        /* 타겟 액션 텍스트 */
+        #target-action {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 예측된 동작 텍스트 */
+        #predicted-action {
+            display: none;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(34, 34, 34, 0.8);
+            padding: 8px 16px;
+            border-radius: 25px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 사용자 정보 */
+        #user-info {
+            text-align: center;
+            font-size: 30px;
+            color: #555;
+        }
+
+        #user-info p {
+            margin: 5px 0;
+        }
+
+        #user-score {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 30px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        /* 버튼 스타일 */
+        .button {
+            background-color: #ff6699;
+            color: white;
+            padding: 10px 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ff3366;
+        }
+
+    </style>
+</head>
+
+<body>
+    {% load static %}
+    <div id="video-container">
+        <img id="correct-image" src="{% static 'correct_image.png' %}" alt="Correct" />
+        <h1 id="target-action">동작: ...</h1>
+        <h2 id="predicted-action"></h2>
+        <img src="{% url 'video_feed' %}" alt="Live Stream" />
+    </div>
+
+    <div id="user-info">
+        <p>Welcome, {{ nickname }}!</p>
+        <p>Your Score: <span id="user-score">0</span></p>
+    </div>
+
+    <script>
+        const actions = ['hello', 'pretty', 'shy', 'introduce', 'sorry', 'good', 'how much', 'fine', 'thanks', 'please'];
+        let currentAction = '';
+        let actionStartTime = 0;
+        let score = 0; // 점수를 0으로 초기화
+        const correctImage = document.getElementById('correct-image');
+        const userScore = document.getElementById('user-score');
+        const body = document.body;
+
+        function fetchAction() {
+            fetch("{% url 'get_predicted_action' %}")
+                .then(response => response.json())
+                .then(data => {
+                    const action = data.action ? data.action.toLowerCase() : "no action";
+                    document.getElementById('predicted-action').innerText = action.toUpperCase();
+
+                    if (action === currentAction && (Date.now() - actionStartTime >= 3000)) {
+                        showCorrectImage();
+                    }
+                })
+                .catch(error => console.error('Error fetching action:', error));
+        }
+
+        function fetchNewAction() {
+            fetch("{% url 'get_new_action' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    currentAction = data.new_action; // 새 랜덤 액션 설정
+                    document.getElementById('target-action').innerText = currentAction.toUpperCase() + ' 동작을 해주세요.';
+
+                    actionStartTime = Date.now(); // 액션 시작 시간 기록
+                })
+                .catch(error => console.error('Error fetching new action:', error));
+        }
+
+        function showCorrectImage() {
+            // 정답 이미지 확대 애니메이션
+            correctImage.style.display = 'block';
+            correctImage.style.transform = 'translate(-50%, -50%) scale(1)';
+
+            // 배경색 변화
+            body.style.backgroundColor = '#d1ffd6';
+
+            // 점수 증가 애니메이션
+            score++;
+            userScore.innerText = score;
+            userScore.style.transform = 'scale(1.5)';
+            userScore.style.color = '#ff3366';
+
+            setTimeout(() => {
+                correctImage.style.display = 'none';
+                correctImage.style.transform = 'translate(-50%, -50%) scale(0)';
+
+                // 배경색 원래대로 복구
+                body.style.backgroundColor = '#f8f9fa';
+
+                // 점수 텍스트 원래대로 복구
+                userScore.style.transform = 'scale(1)';
+                userScore.style.color = '#27ae60';
+
+                fetchNewAction(); // 새로운 랜덤 액션 가져오기
+            }, 2000); // 이미지를 2초간 표시한 후 새로운 동작 선택
+        }
+
+        // 초기 동작 설정
+        fetchNewAction();
+
+        // 3.5초마다 동작을 가져옴
+        setInterval(fetchAction, 3500);
+    </script>
+</body>
+
+</html>

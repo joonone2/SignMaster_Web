@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe5e5;
+            font-family: Arial, sans-serif;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px 40px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .login-container img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333333;
+        }
+
+        .login-container .input-group {
+            margin-bottom: 15px;
+        }
+
+        .login-container .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffcccc;
+            border-radius: 30px;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .login-container .input-group input:focus {
+            outline: none;
+            border-color: #ff6699;
+        }
+
+        .login-container .input-group i {
+            position: absolute;
+            margin-left: 10px;
+            color: #ff6699;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 30px;
+            background-color: #ff6699;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-container button:hover {
+            background-color: #ff3366;
+        }
+
+        .login-container .signup-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 12px;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .login-container .signup-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            display: block;
+            font-size: 12px;
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        {% load static %}
+        <img src="{% static 'logo.png' %}" alt="Login Icon">
+        <h1>로그인</h1>
+
+
+            <div class="input-group">
+                <input type="email" name="username" placeholder="이메일" id="input_email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="비밀번호" id="input_password" required>
+            </div>
+            <button type="submit" id="login_button">로그인</button>
+
+
+        <a class="login-link" href="{% url 'signup' %}">회원가입 하러 가기</a>
+
+    </div>
+<script>
+    $('#login_button').click(function () {
+
+        let email = $('#input_email').val();
+        let password = $('#input_password').val();
+
+
+        $.ajax({
+            url: "/login/",
+            data: {
+                email : email,
+                password : password
+            },
+            method: "POST",
+            success: function (data) {
+                console.log("성공");
+                alert("로그인 성공");
+                location.replace('/'); //여기에 메인화면 주소 적기
+
+            },
+            error: function (request, status, error) {
+                console.log("에러");
+            },
+            complete: function () {
+                console.log("완료");
+            }
+        });
+    });
+</script>
+</body>
+</html>
