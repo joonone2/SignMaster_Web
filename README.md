@@ -142,24 +142,13 @@ _가로축 = epoch , 왼쪽 세로축 = loss, 오른쪽 세로축 = accuracy_
 <img width="800px" src='https://github.com/joonone2/SignMaster/assets/129241680/5d9b8d2a-daf9-443f-81af-d313f6d1ca61'  alt="Skills"/>
 
     
-- # Code
-
-  - version
-    
-    python 3.11.7<br>
-    tensorflow version 2.15.0<br>
-    keras version 2.15.0<br>
-    mediapipe version 0.10.11<br>
+## 구현화면
   
-  - Practice
-    
-    [train_model.ipynb](https://github.com/joonone2/SignMaster/blob/main/train_model.ipynb) <- train과 test를 하는 code<br>
-    [models.my_model.tflite](https://github.com/joonone2/SignMaster/blob/main/models/my_model.tflite) <- model<br>
-    [check_model.py](https://github.com/joonone2/SignMaster/blob/main/check_model.py) <- 생성된 모델을 테스트하는 code<br>
-    [create_data.py](https://github.com/joonone2/SignMaster/blob/main/create_data.py)  <- dataset을 만드는 code<br>
+|                                                        기능선택                                                       |                                                         배우고 싶은 수어 선택                                                         |
+| :---------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
+| <img src='https://github.com/user-attachments/assets/57bb11d0-6de4-403f-a0eb-0b6f2ba2b200'> | <img src='https://github.com/user-attachments/assets/22dcc97d-f2b6-47da-a137-7b531219d9ee'> |
+|                                                     <b>수어 배우기</b>                                                      |                                                <b>닉네임 설정</b>                                                |
+| <img src='https://github.com/user-attachments/assets/c4ee4eef-b173-496d-a5b6-0c99ea3b8213'> | <img src='https://github.com/user-attachments/assets/32933405-3a0f-4c97-8453-90e0c3ee16c5'> |
+|                                                     <b>수어 테스트</b>                                                      |                                                <b>수어 테스트(정답 시)</b>                                                |
+| <img src='https://github.com/user-attachments/assets/2279b6a5-ad33-4326-ab79-c3621187be4c'> | <img src='https://github.com/user-attachments/assets/ca976a2f-52f5-45ce-9d01-f1b095dff40f'> |
 
-
-
-    
-    
-  
