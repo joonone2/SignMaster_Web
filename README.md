@@ -103,12 +103,12 @@ SignMaster는 청각장애인과 비장애인을 위한 수어 교육 플랫폼�
 
 
   
-  만약 왼손만 감지되었다면 오른손의 인덱스는 0으로 채워집니다.
+  만약 왼손만 감지되었다면 오른손의 인덱스는 -1으로 채워집니다.
   
   ![image](https://github.com/joonone2/SignMaster/assets/129241680/7c9e7534-1753-407f-87f1-df19e78319fe)
 
   
-  만약 오른손만 감지되었다면 왼손의 인덱스는 0으로 채워집니다.
+  만약 오른손만 감지되었다면 왼손의 인덱스는 -1으로 채워집니다.
   
   ![image](https://github.com/joonone2/SignMaster/assets/129241680/105e5a4b-33c7-41d8-bf7c-22e2a9a8723d)
 
